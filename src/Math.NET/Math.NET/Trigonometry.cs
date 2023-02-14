@@ -4,9 +4,13 @@ namespace Math.NET;
 
 public static class Trigonometry
 {
+    public static double ToDegree(this double radian)
+    {
+        return radian * System.Math.PI / 180;
+    }
     public static double ToRadian(this double degree)
     {
-        return degree / (180.0 / System.Math.PI);
+        return degree * 180 / System.Math.PI;
     }
     public static double AngleRadian(Vector2 vector)
     {
