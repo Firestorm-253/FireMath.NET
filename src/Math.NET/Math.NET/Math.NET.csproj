@@ -4,7 +4,14 @@
     <TargetFramework>net6.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
-    <OutputType>Exe</OutputType>
+    <OutputType>Library</OutputType>
+    <Title>$(AssemblyName)</Title>
+    <Company>Laurin Zehnder</Company>
+    <Authors>Firestorm253</Authors>
+    <Copyright>Laurin Zehnder</Copyright>
+    <PackageId>FireMath.NET</PackageId>
+    <PackageProjectUrl>https://github.com/Firestorm-253/Math.NET</PackageProjectUrl>
+    <PackageOutputPath>bin\Debug\packages</PackageOutputPath>
   </PropertyGroup>
 
 </Project>
