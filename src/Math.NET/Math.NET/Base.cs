@@ -3,6 +3,7 @@
 public static class Base
 {
     public const double PI = 3.141592653589793238462643383279;
+    public const double E = 2.718281828459045235360287471352;
 
     public static double Abs(this double value) => System.Math.Abs(value);
 
