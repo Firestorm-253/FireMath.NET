@@ -2,6 +2,8 @@
 
 public static class Base
 {
+    public const double PI = 3.141592653589793238462643383279;
+
     public static double Abs(this double value) => System.Math.Abs(value);
 
     public static double Acos(this double value) => System.Math.Acos(value);
