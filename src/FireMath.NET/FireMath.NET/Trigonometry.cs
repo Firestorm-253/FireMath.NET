@@ -6,11 +6,11 @@ public static class Trigonometry
 {
     public static double ToDegree(this double radian)
     {
-        return radian * Base.PI / 180;
+        return radian * Math.PI / 180;
     }
     public static double ToRadian(this double degree)
     {
-        return degree * 180 / Base.PI;
+        return degree * 180 / Math.PI;
     }
     public static double AngleRadian(Vector2 vector)
     {
@@ -18,6 +18,6 @@ public static class Trigonometry
     }
     public static double AngleRadian(double x, double y)
     {
-        return Base.Atan2(y, x);
+        return Math.Atan2(y, x);
     }
 }

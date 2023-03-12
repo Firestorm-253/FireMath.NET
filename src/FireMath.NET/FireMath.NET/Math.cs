@@ -1,6 +1,8 @@
-﻿namespace FireMath.NET;
+﻿using MathNet.Numerics;
 
-public static class Base
+namespace FireMath.NET;
+
+public static partial class Math
 {
     public const double PI = 3.141592653589793238462643383279;
     public const double E = 2.718281828459045235360287471352;
@@ -43,7 +45,7 @@ public static class Base
 
     public static double Log10(this double value) => System.Math.Log10(value);
 
-    public static double Pow(this double x, double y) => System.Math.Pow(x, y);
+    public static double Pow(this double x, double y = 2) => System.Math.Pow(x, y);
 
     public static double Sin(this double value) => System.Math.Sin(value);
 
@@ -52,4 +54,6 @@ public static class Base
     public static double Sqrt(this double value) => System.Math.Sqrt(value);
 
     public static double Tan(this double value) => System.Math.Tan(value);
+
+    public static double Erf(this double value) => SpecialFunctions.Erf(value);
 }
