@@ -1,4 +1,4 @@
-﻿namespace Math.NET;
+﻿namespace FireMath.NET;
 
 public static class Base
 {

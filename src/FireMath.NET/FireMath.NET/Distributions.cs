@@ -1,4 +1,4 @@
-﻿namespace Math.NET.Distributions;
+﻿namespace FireMath.NET.Distributions;
 
 public struct Gaussian
 {

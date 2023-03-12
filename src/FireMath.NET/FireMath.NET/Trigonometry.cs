@@ -1,6 +1,6 @@
 ﻿using System.Numerics;
 
-namespace Math.NET.Trigonometry;
+namespace FireMath.NET.Trigonometry;
 
 public static class Trigonometry
 {

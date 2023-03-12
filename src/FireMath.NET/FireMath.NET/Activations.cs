@@ -1,4 +1,4 @@
-﻿namespace Math.NET.Activations;
+﻿namespace FireMath.NET.Activations;
 
 public static class Activations
 {
