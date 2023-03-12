@@ -17,13 +17,26 @@ public struct Gaussian
         this.PrecisionAdjustedMean = GetPrecisionAdjustedMean(this.Precision, this.Mean);
     }
 
-    public double GetRandom()
+    public double Sample()
     {
         double u1 = 1.0 - random.NextDouble();
         double u2 = 1.0 - random.NextDouble();
 
-        double randStdNormal = Base.Sqrt(-2.0 * Base.Log(u1)) * Base.Sin(2.0 * Base.PI * u2);
+        double randStdNormal = (-2.0 * Math.Log(u1)).Sqrt() * Math.Sin(2.0 * Math.PI * u2);
         return this.Mean + (this.Deviation * randStdNormal);
+    }
+    public double CDF(double x)
+    {
+        return (1.0 / 2) * Math.Erf(this.Mean - x) / (this.Deviation * Math.Sqrt(2));
+    }
+    public double PDF(double x)
+    {
+        double variance = this.Deviation.Pow();
+
+        double part1 = 1 / (2 * Math.PI * variance).Sqrt();
+        double part2 = Math.Exp(-(x - this.Mean).Pow() / (2 * variance));
+
+        return part1 * part2;
     }
 
     public static Gaussian ByMeanDeviation(double mean, double deviation)
