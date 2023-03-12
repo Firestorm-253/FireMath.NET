@@ -27,7 +27,7 @@ public struct Gaussian
     }
     public double CDF(double x)
     {
-        return (1.0 / 2) * Math.Erf(this.Mean - x) / (this.Deviation * Math.Sqrt(2));
+        return (1.0 / 2) * Math.Erfc(this.Mean - x) / (this.Deviation * Math.Sqrt(2));
     }
     public double PDF(double x)
     {

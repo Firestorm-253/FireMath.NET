@@ -56,4 +56,6 @@ public static partial class Math
     public static double Tan(this double value) => System.Math.Tan(value);
 
     public static double Erf(this double value) => SpecialFunctions.Erf(value);
+
+    public static double Erfc(this double value) => SpecialFunctions.Erfc(value);
 }
