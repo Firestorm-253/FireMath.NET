@@ -51,8 +51,10 @@ public struct Gaussian
             PrecisionAdjustedMean = GetPrecisionAdjustedMean(precision, mean)
         };
     }
-    public static Gaussian ByPrecision(double precision, double precisionAdjustedMean)
+    public static Gaussian ByPrecision(double precision, double mean)
     {
+        double precisionAdjustedMean = GetPrecisionAdjustedMean(precision, mean);
+
         return new Gaussian()
         {
             Precision = precision,
