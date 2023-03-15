@@ -51,7 +51,7 @@ public struct Gaussian
             PrecisionAdjustedMean = GetPrecisionAdjustedMean(precision, mean)
         };
     }
-    public static Gaussian ByPrecision(double precision, double mean)
+    public static Gaussian ByMeanPrecision(double mean, double precision)
     {
         double precisionAdjustedMean = GetPrecisionAdjustedMean(precision, mean);
 
@@ -69,24 +69,38 @@ public struct Gaussian
     public static double GetDeviation(double precision)
         => (1 / precision).Sqrt();
     public static double GetPrecision(double deviation)
-        => 1 / deviation.Pow(2);
+        => 1 / deviation.Pow();
     public static double GetPrecisionAdjustedMean(double precision, double mean)
         => precision * mean;
 
     public static Gaussian operator +(Gaussian a, Gaussian b)
     {
-        return ByMeanDeviation(a.Mean + b.Mean, (a.Deviation.Pow(2) + b.Deviation.Pow(2)).Sqrt());
+        double mean = a.Mean + b.Mean;
+        double deviation = (a.Deviation.Pow() + b.Deviation.Pow()).Sqrt();
+
+        return ByMeanDeviation(mean, deviation);
     }
     public static Gaussian operator -(Gaussian a, Gaussian b)
     {
-        return ByMeanDeviation(a.Mean - b.Mean, (a.Deviation.Pow(2) + b.Deviation.Pow(2)).Sqrt());
+        double mean = a.Mean - b.Mean;
+        double deviation = (a.Deviation.Pow() + b.Deviation.Pow()).Sqrt();
+
+        return ByMeanDeviation(mean, deviation);
     }
     public static Gaussian operator *(Gaussian a, Gaussian b)
     {
-        return ByPrecision(a.Precision + b.Precision, a.PrecisionAdjustedMean + b.PrecisionAdjustedMean);
+        double precision = a.Precision + b.Precision;
+        double precisionAdjustedMean = a.PrecisionAdjustedMean + b.PrecisionAdjustedMean;
+        double mean = GetMean(precisionAdjustedMean, precision);
+
+        return ByMeanPrecision(mean, precision);
     }
     public static Gaussian operator /(Gaussian a, Gaussian b)
     {
-        return ByPrecision(a.Precision - b.Precision, a.PrecisionAdjustedMean - b.PrecisionAdjustedMean);
+        double precision = a.Precision - b.Precision;
+        double precisionAdjustedMean = a.PrecisionAdjustedMean - b.PrecisionAdjustedMean;
+        double mean = GetMean(precisionAdjustedMean, precision);
+
+        return ByMeanPrecision(mean, precision);
     }
 }
