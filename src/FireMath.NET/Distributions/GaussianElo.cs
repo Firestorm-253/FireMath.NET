@@ -29,10 +29,12 @@ public static class GaussianElo
 
     public static Gaussian GetRatingAfter(Gaussian rating, int actualResult, Gaussian matchDist)
     {
-        var matchDist_goal = Gaussian.ByMeanDeviation(-matchDist.Deviation, (ROOT_2 * matchDist.Deviation));
-        var delta = (matchDist.Mean - matchDist_goal.Mean) / 2;
+        var matchDist_goal_mean = (actualResult == 1) ? -matchDist.Deviation : matchDist.Deviation;
 
-        delta = (actualResult == 1) ? delta : -delta;
+        var matchDist_goal = Gaussian.ByMeanDeviation(matchDist_goal_mean, (ROOT_2 * matchDist.Deviation));
+        var delta = ((matchDist.Mean - matchDist_goal.Mean) / 2)/*.Abs()*/;
+
+        //double deltaAdapted = (actualResult == 1) ? delta : -delta;
 
         var info = Gaussian.ByMeanDeviation(rating.Mean + delta, matchDist.Deviation);
         var ratingAfter = rating * info;
