@@ -6,8 +6,10 @@ public static class GaussianElo
 
     // var rating_a = Gaussian.ByMeanDeviation(1200, 5);
     // var rating_b = Gaussian.ByMeanDeviation(1000, 600);
-    public static (Gaussian, Gaussian) GetRatingsAfter(Gaussian rating_a, Gaussian rating_b, Gaussian matchDist, int actualResult_a)
+    public static (Gaussian, Gaussian) GetRatingsAfter(Gaussian rating_a, Gaussian rating_b, int actualResult_a)
     {
+        var (winChance_a, matchDist) = PredictMatch(rating_a, rating_b);
+
         var match_goal = Gaussian.ByMeanDeviation(-matchDist.Deviation, (ROOT_2 * matchDist.Deviation) /*(match.Deviation.Pow() + match.Deviation.Pow()).Sqrt()*/);
         var delta = (matchDist.Mean - match_goal.Mean) / 2;
 
@@ -23,6 +25,19 @@ public static class GaussianElo
         //var (winChanceAfter, matchGaussianAfter) = GetWinChance(ratingAfter_a, ratingAfter_b);
 
         return (ratingAfter_a, ratingAfter_b);
+    }
+
+    public static Gaussian GetRatingAfter(Gaussian rating, int actualResult, Gaussian matchDist)
+    {
+        var matchDist_goal = Gaussian.ByMeanDeviation(-matchDist.Deviation, (ROOT_2 * matchDist.Deviation));
+        var delta = (matchDist.Mean - matchDist_goal.Mean) / 2;
+
+        delta = (actualResult == 1) ? delta : -delta;
+
+        var info = Gaussian.ByMeanDeviation(rating.Mean + delta, matchDist.Deviation);
+        var ratingAfter = rating * info;
+
+        return ratingAfter;
     }
 
     public static (double, Gaussian) PredictMatch(Gaussian a, Gaussian b)
