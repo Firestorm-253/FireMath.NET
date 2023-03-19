@@ -39,16 +39,20 @@ public class GaussianEloTests
     [TestMethod]
     public void Win()
     {
-        Win_AsStronger(out double delta_asStronger);
-        Win_AsWeaker(out double delta_asWeaker);
+        var deviations = (random.Next(1, 1000), random.Next(1, 1000));
+
+        Win_AsStronger(out double delta_asStronger, deviations);
+        Win_AsWeaker(out double delta_asWeaker, deviations);
 
         Assert.Greater(delta_asWeaker, delta_asStronger);
     }
     [TestMethod]
     public void Loss()
     {
-        Loss_AsStronger(out double delta_asStronger);
-        Loss_AsWeaker(out double delta_asWeaker);
+        var deviations = (random.Next(1, 1000), random.Next(1, 1000));
+
+        Loss_AsStronger(out double delta_asStronger, deviations);
+        Loss_AsWeaker(out double delta_asWeaker, deviations);
 
         Assert.Less(delta_asWeaker.Abs(), delta_asStronger.Abs());
     }
@@ -56,40 +60,40 @@ public class GaussianEloTests
     [TestMethod]
     public void Win_AsStronger()
     {
-        Win_AsStronger(out _);
+        Win_AsStronger(out _, (random.Next(1, 1000), random.Next(1, 1000)));
     }
     [TestMethod]
     public void Win_AsWeaker()
     {
-        Win_AsWeaker(out _);
+        Win_AsWeaker(out _, (random.Next(1, 1000), random.Next(1, 1000)));
     }
 
     [TestMethod]
     public void Loss_AsStronger()
     {
-        Loss_AsStronger(out _);
+        Loss_AsStronger(out _, (random.Next(1, 1000), random.Next(1, 1000)));
     }
     [TestMethod]
     public void Loss_AsWeaker()
     {
-        Loss_AsWeaker(out _);
+        Loss_AsWeaker(out _, (random.Next(1, 1000), random.Next(1, 1000)));
     }
 
 
-    public static void Win_AsStronger(out double delta)
+    public static void Win_AsStronger(out double delta, (double, double) deviations)
     {
-        var ratingBefore = Gaussian.ByMeanDeviation(1100, random.Next(1, 1000));
-        var ratingOpp = Gaussian.ByMeanDeviation(1000, random.Next(1, 1000));
+        var ratingBefore = Gaussian.ByMeanDeviation(1100, deviations.Item1);
+        var ratingOpp = Gaussian.ByMeanDeviation(1000, deviations.Item2);
 
         var ratingAfter = Win(ratingBefore, ratingOpp, out var matchDist);
         delta = ratingAfter.Mean - ratingBefore.Mean;
 
         Assert.True(matchDist.Mean < 0);
     }
-    public static void Win_AsWeaker(out double delta)
+    public static void Win_AsWeaker(out double delta, (double, double) deviations)
     {
-        var ratingBefore = Gaussian.ByMeanDeviation(1000, random.Next(1, 1000));
-        var ratingOpp = Gaussian.ByMeanDeviation(1100, random.Next(1, 1000));
+        var ratingBefore = Gaussian.ByMeanDeviation(1000, deviations.Item1);
+        var ratingOpp = Gaussian.ByMeanDeviation(1100, deviations.Item2);
 
         var ratingAfter = Win(ratingBefore, ratingOpp, out var matchDist);
         delta = ratingAfter.Mean - ratingBefore.Mean;
@@ -97,20 +101,20 @@ public class GaussianEloTests
         Assert.True(matchDist.Mean > 0);
     }
 
-    public static void Loss_AsStronger(out double delta)
+    public static void Loss_AsStronger(out double delta, (double, double) deviations)
     {
-        var ratingBefore = Gaussian.ByMeanDeviation(1100, random.Next(1, 1000));
-        var ratingOpp = Gaussian.ByMeanDeviation(1000, random.Next(1, 1000));
+        var ratingBefore = Gaussian.ByMeanDeviation(1100, deviations.Item1);
+        var ratingOpp = Gaussian.ByMeanDeviation(1000, deviations.Item2);
 
         var ratingAfter = Loss(ratingBefore, ratingOpp, out var matchDist);
         delta = ratingAfter.Mean - ratingBefore.Mean;
 
         Assert.True(matchDist.Mean < 0);
     }
-    public static void Loss_AsWeaker(out double delta)
+    public static void Loss_AsWeaker(out double delta, (double, double) deviations)
     {
-        var ratingBefore = Gaussian.ByMeanDeviation(1000, random.Next(1, 1000));
-        var ratingOpp = Gaussian.ByMeanDeviation(1100, random.Next(1, 1000));
+        var ratingBefore = Gaussian.ByMeanDeviation(1000, deviations.Item1);
+        var ratingOpp = Gaussian.ByMeanDeviation(1100, deviations.Item2);
 
         var ratingAfter = Loss(ratingBefore, ratingOpp, out var matchDist);
         delta = ratingAfter.Mean - ratingBefore.Mean;
