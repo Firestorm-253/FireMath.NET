@@ -8,13 +8,15 @@ using Assert = NUnit.Framework.Assert;
 namespace Tests;
 
 [TestClass]
-public class Distributions
+public class GaussianEloTests
 {
+    static Random random = new();
+
     [TestMethod]
     public void Win_Equal()
     {
-        var ratingBefore = Gaussian.ByMeanDeviation(1000, 80);
-        var ratingOpp = Gaussian.ByMeanDeviation(1000, 80);
+        var ratingBefore = Gaussian.ByMeanDeviation(1000, random.Next(1, 1000));
+        var ratingOpp = Gaussian.ByMeanDeviation(1000, random.Next(1, 1000));
 
         Win(ratingBefore, ratingOpp, out var matchDist);
 
@@ -25,8 +27,8 @@ public class Distributions
     [TestMethod]
     public void Loss_Equal()
     {
-        var ratingBefore = Gaussian.ByMeanDeviation(1000, 80);
-        var ratingOpp = Gaussian.ByMeanDeviation(1000, 80);
+        var ratingBefore = Gaussian.ByMeanDeviation(1000, random.Next(1, 1000));
+        var ratingOpp = Gaussian.ByMeanDeviation(1000, random.Next(1, 1000));
 
         Loss(ratingBefore, ratingOpp, out var matchDist);
 
@@ -76,8 +78,8 @@ public class Distributions
 
     public static void Win_AsStronger(out double delta)
     {
-        var ratingBefore = Gaussian.ByMeanDeviation(1100, 80);
-        var ratingOpp = Gaussian.ByMeanDeviation(1000, 80);
+        var ratingBefore = Gaussian.ByMeanDeviation(1100, random.Next(1, 1000));
+        var ratingOpp = Gaussian.ByMeanDeviation(1000, random.Next(1, 1000));
 
         var ratingAfter = Win(ratingBefore, ratingOpp, out var matchDist);
         delta = ratingAfter.Mean - ratingBefore.Mean;
@@ -86,8 +88,8 @@ public class Distributions
     }
     public static void Win_AsWeaker(out double delta)
     {
-        var ratingBefore = Gaussian.ByMeanDeviation(1000, 80);
-        var ratingOpp = Gaussian.ByMeanDeviation(1100, 80);
+        var ratingBefore = Gaussian.ByMeanDeviation(1000, random.Next(1, 1000));
+        var ratingOpp = Gaussian.ByMeanDeviation(1100, random.Next(1, 1000));
 
         var ratingAfter = Win(ratingBefore, ratingOpp, out var matchDist);
         delta = ratingAfter.Mean - ratingBefore.Mean;
@@ -97,8 +99,8 @@ public class Distributions
 
     public static void Loss_AsStronger(out double delta)
     {
-        var ratingBefore = Gaussian.ByMeanDeviation(1100, 80);
-        var ratingOpp = Gaussian.ByMeanDeviation(1000, 80);
+        var ratingBefore = Gaussian.ByMeanDeviation(1100, random.Next(1, 1000));
+        var ratingOpp = Gaussian.ByMeanDeviation(1000, random.Next(1, 1000));
 
         var ratingAfter = Loss(ratingBefore, ratingOpp, out var matchDist);
         delta = ratingAfter.Mean - ratingBefore.Mean;
@@ -107,8 +109,8 @@ public class Distributions
     }
     public static void Loss_AsWeaker(out double delta)
     {
-        var ratingBefore = Gaussian.ByMeanDeviation(1000, 80);
-        var ratingOpp = Gaussian.ByMeanDeviation(1100, 80);
+        var ratingBefore = Gaussian.ByMeanDeviation(1000, random.Next(1, 1000));
+        var ratingOpp = Gaussian.ByMeanDeviation(1100, random.Next(1, 1000));
 
         var ratingAfter = Loss(ratingBefore, ratingOpp, out var matchDist);
         delta = ratingAfter.Mean - ratingBefore.Mean;
@@ -137,8 +139,8 @@ public class Distributions
 
     public static Gaussian Process(Gaussian ratingBefore, Gaussian ratingOpp, int actualResult, out Gaussian matchDist)
     {
-        (_, matchDist) = GaussianElo.PredictMatch(ratingBefore, ratingOpp);
-        var ratingAfter = GaussianElo.GetRatingAfter(ratingBefore, actualResult, matchDist);
+        (_, matchDist) = FireMath.NET.Distributions.GaussianElo.PredictMatch(ratingBefore, ratingOpp);
+        var ratingAfter = FireMath.NET.Distributions.GaussianElo.GetRatingAfter(ratingBefore, actualResult, matchDist);
         return ratingAfter;
     }
 }
