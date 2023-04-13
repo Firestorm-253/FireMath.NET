@@ -55,13 +55,14 @@ public struct Gaussian
     {
         double precisionAdjustedMean = GetPrecisionAdjustedMean(precision, mean);
 
-        return new Gaussian()
+        var result = new Gaussian()
         {
             Precision = precision,
             PrecisionAdjustedMean = precisionAdjustedMean,
             Mean = GetMean(precisionAdjustedMean, precision),
             Deviation = GetDeviation(precision),
         };
+        return result;
     }
 
     public static double GetMean(double precisionAdjustedMean, double precision)
